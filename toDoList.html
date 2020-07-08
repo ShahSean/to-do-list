@@ -5,7 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple To Do List</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script src="toDoScriptV2.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <section class="main-container">
+      <nav>
+        <h2>To Do List</h2>
+        <div class="search-box">
+          <button type="submit" class="search-button">
+            <i class="fa fa-search"></i>
+          </button>
+          <input
+            type="text"
+            placeholder="Search..."
+            class="search-bar search-bar-hidden"
+          />
+        </div>
+      </nav>
+
+      <br />
+      <br />
+      <input
+        size="25"
+        type="text"
+        placeholder="Please Enter Your Task Here !"
+        id="usr-input"
+      />
+      <button type="submit" id="submit-btn">Add to List</button>
+      <br />
+      <br />
+      <ul class="tasks task-containers"></ul>
+    </section>
+  </body>
 </html>
