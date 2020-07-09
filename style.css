@@ -23,6 +23,9 @@ body {
 #usr-input {
   border-radius: 4rem;
   border: none;
+  text-indent: 0.72rem;
+  text-justify: center;
+  width: 75%;
 }
 
 .search-box {
@@ -45,6 +48,10 @@ body {
   transition: all 0.4s ease-out;
   transition-delay: 0.5s;
   opacity: 0;
+  border: none;
+  border-radius: 0.78rem;
+  border-color: rgba(255, 248, 220, 0.201);
+  text-indent: 0.72rem;
 }
 
 .search-bar:focus,
@@ -52,7 +59,7 @@ body {
   animation-delay: 3s;
   transition: all 0.5s ease-in;
   transition-delay: 0.25s;
-  width: 250px;
+  width: 210px;
   opacity: 1;
 }
 #submit-btn {
@@ -64,4 +71,13 @@ body {
 }
 #submit-btn:hover {
   transform: scale(1.5);
+  transition: all 0.2s ease-in;
+  color: rgba(26, 139, 26, 0.911);
+}
+
+.search-bar:focus {
+  outline: none;
+}
+#usr-input:focus {
+  outline: none;
 }
