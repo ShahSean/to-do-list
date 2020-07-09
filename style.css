@@ -19,15 +19,11 @@ body {
   text-align: center;
   background-color: rgba(188, 240, 237, 0.689);
 }
-
-#usr-input {
-  border-radius: 4rem;
-  border: none;
-  text-indent: 0.72rem;
-  text-justify: center;
-  width: 75%;
+.main-container h2 {
+  font-family: "Shadows Into Light", cursive;
+  font-size: xxx-large;
 }
-
+/* Search button and Search bar Config */
 .search-box {
   float: left;
 }
@@ -78,6 +74,18 @@ body {
 .search-bar:focus {
   outline: none;
 }
+
+/* User Task input and adding button */
+#usr-input {
+  border-radius: 4rem;
+  border: none;
+  text-indent: 0.72rem;
+  text-justify: center;
+  width: 75%;
+  font-family: "Indie Flower", cursive;
+  font-size: large;
+}
+
 #usr-input:focus {
   outline: none;
 }

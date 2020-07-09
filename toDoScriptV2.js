@@ -13,6 +13,28 @@ function timeStamp() {
   return time;
 }
 
+function addTaskHandler() {
+  let usrInput = document.querySelector("#usr-input");
+  let subBtn = document.querySelector("#submit-btn");
+
+  //Submit Button Event Listeners
+  subBtn.addEventListener("click", addBtnClickHandler);
+  usrInput.addEventListener("keypress", addKeyPressHandler);
+
+  // Add-To-List Button handler
+  function addBtnClickHandler(e) {
+    addNewTask(usrInput.value);
+    usrInput.value = "";
+  }
+  // Keyboard Enter key handler
+  function addKeyPressHandler(e, func) {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      addNewTask(usrInput.value);
+      usrInput.value = "";
+    }
+  }
+}
+
 function addTask(task) {
   let uniqueId = timeStamp();
   let data = {
@@ -22,23 +44,20 @@ function addTask(task) {
   };
   toDoList.push(data);
 }
-function makeFoo() {
-  for (i = 0; i < 11; i++) {
-    addTask("Task " + i);
-  }
-}
-makeFoo();
 
-function deleteTask(removeId) {
-  let foundIndex = toDoList.findIndex((el) => {
-    return el.idNum === removeId;
-  });
-  toDoList.splice(foundIndex, 1);
-}
-deleteTask(2);
-deleteTask(8);
+// function makeFoo() {
+//   for (i = 0; i < 11; i++) {
+//     addTask("Task " + i);
+//   }
+// }
+// makeFoo();
 
-console.log(JSON.stringify(toDoList));
+// function deleteTask(removeId) {
+//   let foundIndex = toDoList.findIndex((el) => {
+//     return el.idNum === removeId;
+//   });
+//   toDoList.splice(foundIndex, 1);
+// }
 
 // add
 // delete
