@@ -1,12 +1,24 @@
 toDoList = [];
 trash = [];
-let num = 0;
+
+// This function creates a unique number which will be used as unique ID Number
+function timeStamp() {
+  let time = 0,
+    now = new Date();
+
+  time = now.getFullYear();
+  time += (now.getMonth < 9 ? "0" : "") + now.getMonth();
+  time += (now.getDate < 10 ? "0" : "") + now.getDate();
+  time += now.getUTCMilliseconds();
+  return time;
+}
 
 function addTask(task) {
+  let uniqueId = timeStamp();
   let data = {
     text: task,
     completed: false,
-    idNum: num++,
+    idNum: uniqueId,
   };
   toDoList.push(data);
 }
@@ -23,7 +35,8 @@ function deleteTask(removeId) {
   });
   toDoList.splice(foundIndex, 1);
 }
-// deleteTask(2);
+deleteTask(2);
+deleteTask(8);
 
 console.log(JSON.stringify(toDoList));
 

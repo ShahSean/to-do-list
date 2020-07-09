@@ -20,6 +20,11 @@ body {
   background-color: rgba(188, 240, 237, 0.689);
 }
 
+#usr-input {
+  border-radius: 4rem;
+  border: none;
+}
+
 .search-box {
   float: left;
 }
@@ -49,4 +54,14 @@ body {
   transition-delay: 0.25s;
   width: 250px;
   opacity: 1;
+}
+#submit-btn {
+  font-size: 1.8rem;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(37, 189, 37, 0.911);
+}
+#submit-btn:hover {
+  transform: scale(1.5);
 }
