@@ -116,18 +116,7 @@ function addTaskToUI(task) {
 // This function creates the UI for the current Tasks from the toDoList array
 function loadTasks() {
   for (let j = 0; j < toDoList.length; j++) {
-    // Checking if the Task has been marked as completed
-    // if (toDoList[j].isDone === true) {
-    // Check to see wether the completed section has already been created
-    // if (!completedSectionCreated) {
-    //   createCmpltHeader();
-    //   clearAllBtn();
-    //   completedSectionCreated = true;
-    // }
-    //   completedTasksHandler(toDoList[j], toDoList[j].idNum);
-    // } else {
     addTaskToUI(toDoList[j]);
-    // }
   }
 }
 
@@ -139,30 +128,22 @@ function addDelBtnToUI() {
   return delBtn;
 }
 
-function removeHandler() {
-  console.log("remove");
+function removeHandler(e) {
+  const removeId = getterID(e);
+  const foundIndex = indexFounder(removeId);
+
+  toDoList.splice(foundIndex, 1);
+  commitToLocalStorage(toDoList);
+  reRender();
 }
 
 // This function returns the ID of the Targeted DOM element
 function getterID(e) {
   return e.target.parentElement.getAttribute("data-task-id");
 }
-
-// function makeFoo() {
-//   for (i = 0; i < 11; i++) {
-//     addTask("Task " + i);
-//   }
-// }
-// makeFoo();
-
-// function deleteTask(removeId) {
-//   let foundIndex = toDoList.findIndex((el) => {
-//     return el.idNum === removeId;
-//   });
-//   toDoList.splice(foundIndex, 1);
-// }
-
-// add
-// delete
-// edit
-// clear all
+// This function finds the according index of the given element
+function indexFounder(id) {
+  return toDoList.findIndex((el) => {
+    return el.idNum === id;
+  });
+}
