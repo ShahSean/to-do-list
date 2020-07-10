@@ -1,6 +1,51 @@
 toDoList = [];
 trash = [];
 
+// This function Starts the App
+function startApp() {
+  loadFromLocalStorage(); // Try to load list from Local Storage
+
+  if (toDoList.length > 0) {
+    loadTasks(); // The UI Task Loader
+  }
+  addTaskBtnHandler();
+}
+
+function loadFromLocalStorage() {
+  const tasks = localStorage.getItem("tasks");
+  if (tasks) {
+    toDoList = JSON.parse(tasks);
+  }
+}
+
+function commitToLocalStorage(list) {
+  localStorage.setItem("tasks", JSON.stringify(list));
+}
+
+// This function forces the Tasks UI section to be re-rendered
+function reRender() {
+  // New Tasks Parent element
+  let newTaskParent = document.querySelector(".tasks");
+  // // Completed tasks parent
+  // let cmpltparent = document.querySelector(".cmpltTasksSec");
+
+  if (newTaskParent) {
+    newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
+  }
+
+  // if (cmpltparent) {
+  //   cmpltparent.querySelectorAll("*").forEach((n) => n.remove());
+  // }
+
+  // Reload all tasks
+  loadTasks();
+}
+
+startApp();
+
+////////////////////////////////
+/////////////////
+////////////////////////////////
 // This function creates a unique number which will be used as unique ID Number
 function timeStamp() {
   let time = 0,
@@ -13,7 +58,7 @@ function timeStamp() {
   return time;
 }
 
-function addTaskHandler() {
+function addTaskBtnHandler() {
   let usrInput = document.querySelector("#usr-input");
   let subBtn = document.querySelector("#submit-btn");
 
@@ -35,7 +80,7 @@ function addTaskHandler() {
   }
 }
 
-function addTask(task) {
+function addNewTask(task) {
   let uniqueId = timeStamp();
   let data = {
     text: task,
@@ -43,6 +88,43 @@ function addTask(task) {
     idNum: uniqueId,
   };
   toDoList.push(data);
+  addTaskToUI(data);
+  commitToLocalStorage(toDoList);
+}
+
+function addTaskToUI(task) {
+  let newTask = document.createElement("li");
+  let taskText = document.createElement("label");
+
+  newTask.setAttribute("data-task-id", task.idNum);
+
+  // Adding appropriate classes to each element
+  taskText.classList.add("lbl");
+  newTask.classList.add("new-task");
+
+  taskText.appendChild(document.createTextNode(task.text));
+
+  // Appending each element to document
+  document.querySelector("body > section > ul").appendChild(newTask);
+  newTask.appendChild(taskText);
+}
+
+// This function creates the UI for the current Tasks from the toDoList array
+function loadTasks() {
+  for (let j = 0; j < toDoList.length; j++) {
+    // Checking if the Task has been marked as completed
+    // if (toDoList[j].isDone === true) {
+    // Check to see wether the completed section has already been created
+    // if (!completedSectionCreated) {
+    //   createCmpltHeader();
+    //   clearAllBtn();
+    //   completedSectionCreated = true;
+    // }
+    //   completedTasksHandler(toDoList[j], toDoList[j].idNum);
+    // } else {
+    addTaskToUI(toDoList[j]);
+    // }
+  }
 }
 
 // function makeFoo() {
