@@ -107,3 +107,22 @@ body {
 #submit-btn:active {
   color: rgba(101, 211, 28, 0.911);
 }
+
+/* NEW Task  */
+
+.new-task {
+  margin: 5px 1px;
+  padding: 6px 1px;
+  font-family: "Indie Flower", cursive;
+  font-size: large;
+  list-style-type: none;
+  border-bottom: 0.5px solid rgba(177, 174, 174, 0.528);
+  border-radius: 0.3em;
+  display: grid;
+  /* grid-template-columns: 0.25fr 8fr 1.5fr 1.5fr; */
+}
+
+.new-task:hover {
+  background-color: rgba(250, 235, 215, 0.587);
+  transition: 0.2s;
+}

@@ -58,6 +58,7 @@ function timeStamp() {
   return time;
 }
 
+// This functions handles the behaviour of the Add Task Submit Button
 function addTaskBtnHandler() {
   let usrInput = document.querySelector("#usr-input");
   let subBtn = document.querySelector("#submit-btn");
@@ -80,6 +81,7 @@ function addTaskBtnHandler() {
   }
 }
 
+// This Function adds the New inputted task by the user
 function addNewTask(task) {
   let uniqueId = timeStamp();
   let data = {
@@ -92,6 +94,7 @@ function addNewTask(task) {
   commitToLocalStorage(toDoList);
 }
 
+// This function handles the UI of adding a new Task
 function addTaskToUI(task) {
   let newTask = document.createElement("li");
   let taskText = document.createElement("label");
@@ -107,6 +110,7 @@ function addTaskToUI(task) {
   // Appending each element to document
   document.querySelector("body > section > ul").appendChild(newTask);
   newTask.appendChild(taskText);
+  newTask.appendChild(addDelBtnToUI());
 }
 
 // This function creates the UI for the current Tasks from the toDoList array
@@ -125,6 +129,23 @@ function loadTasks() {
     addTaskToUI(toDoList[j]);
     // }
   }
+}
+
+function addDelBtnToUI() {
+  let delBtn = document.createElement("button");
+  delBtn.addEventListener("click", removeHandler);
+  delBtn.classList.add("del-btn");
+  delBtn.appendChild(document.createTextNode("Delete"));
+  return delBtn;
+}
+
+function removeHandler() {
+  console.log("remove");
+}
+
+// This function returns the ID of the Targeted DOM element
+function getterID(e) {
+  return e.target.parentElement.getAttribute("data-task-id");
 }
 
 // function makeFoo() {
