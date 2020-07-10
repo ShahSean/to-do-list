@@ -1,6 +1,7 @@
 html {
   box-sizing: border-box;
 }
+
 *,
 *:after,
 *:before {
@@ -10,6 +11,7 @@ html {
 body {
   background-image: url("./img/bckg.jpg");
 }
+
 .main-container {
   margin: 5% 20%;
   padding: 2% 4%;
@@ -23,15 +25,22 @@ body {
   font-family: "Shadows Into Light", cursive;
   font-size: xxx-large;
 }
+
 /* Search button and Search bar Config */
 .search-box {
   float: left;
 }
+
 .search-button {
   background-color: rgba(113, 176, 228, 0.633);
   border: none;
   border-radius: 0.4em;
 }
+
+.search-button:focus {
+  outline: none;
+}
+
 .search-button:hover {
   background-color: rgba(85, 166, 231, 0.842);
 }
@@ -58,18 +67,6 @@ body {
   width: 210px;
   opacity: 1;
 }
-#submit-btn {
-  font-size: 1.8rem;
-  border: none;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0);
-  color: rgba(37, 189, 37, 0.911);
-}
-#submit-btn:hover {
-  transform: scale(1.5);
-  transition: all 0.2s ease-in;
-  color: rgba(26, 139, 26, 0.911);
-}
 
 .search-bar:focus {
   outline: none;
@@ -88,4 +85,25 @@ body {
 
 #usr-input:focus {
   outline: none;
+}
+
+#submit-btn {
+  font-size: 1.8rem;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(37, 189, 37, 0.911);
+}
+
+#submit-btn:hover {
+  transform: scale(1.5);
+  transition: all 0.2s ease-in;
+  color: rgba(26, 139, 26, 0.911);
+}
+
+#submit-btn:focus {
+  outline-width: 0;
+}
+#submit-btn:active {
+  color: rgba(101, 211, 28, 0.911);
 }
