@@ -154,6 +154,7 @@ function checkBoxHandler(e) {
   // If the task is not completed yet set completed to false
   else {
     toDoList[foundIndex].completed = false;
+    moveTaskToStartOfList(foundIndex);
     commitToLocalStorage(toDoList);
     reRender();
   }
@@ -165,7 +166,11 @@ function moveTaskToEndOfList(index) {
   toDoList.push(temp);
 }
 
-function moveTaskToStartOfList(index) {}
+function moveTaskToStartOfList(index) {
+  let temp = toDoList[index];
+  toDoList.splice(index, 1);
+  toDoList.unshift(temp);
+}
 
 // This function hadles the deletion of an item from both UI and the List
 function removeHandler(e) {
