@@ -11,6 +11,7 @@ function startApp() {
   addTaskBtnHandler();
 }
 
+// Load data from Local Storage
 function loadFromLocalStorage() {
   const tasks = localStorage.getItem("tasks");
   if (tasks) {
@@ -18,27 +19,31 @@ function loadFromLocalStorage() {
   }
 }
 
+// This function saves the given list to Local Storage
 function commitToLocalStorage(list) {
   localStorage.setItem("tasks", JSON.stringify(list));
 }
 
 // This function forces the Tasks UI section to be re-rendered
 function reRender() {
-  // New Tasks Parent element
+  // Tasks Parent element
   let newTaskParent = document.querySelector(".tasks");
-  // // Completed tasks parent
-  // let cmpltparent = document.querySelector(".cmpltTasksSec");
-
   if (newTaskParent) {
     newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
   }
-
-  // if (cmpltparent) {
-  //   cmpltparent.querySelectorAll("*").forEach((n) => n.remove());
-  // }
-
   // Reload all tasks
   loadTasks();
+}
+
+// This function creates the UI for the current Tasks from the toDoList array
+function loadTasks() {
+  for (let j = 0; j < toDoList.length; j++) {
+      addTaskToUI(toDoList[j]);
+      // Checking if the Task has been marked as completed
+      if(toDoList[j].completed === true){
+
+      }
+  }
 }
 
 startApp();
@@ -47,7 +52,7 @@ startApp();
 /////////////////
 ////////////////////////////////
 // This function creates a unique number which will be used as unique ID Number
-function timeStamp() {
+function createUniqueId() {
   let time = 0,
     now = new Date();
 
@@ -69,25 +74,25 @@ function addTaskBtnHandler() {
 
   // Add-To-List Button handler
   function addBtnClickHandler(e) {
-    addNewTask(usrInput.value);
+    addNewTaskToList(usrInput.value);
     usrInput.value = "";
   }
   // Keyboard Enter key handler
   function addKeyPressHandler(e, func) {
     if (e.code === "Enter" || e.code === "NumpadEnter") {
-      addNewTask(usrInput.value);
+      addNewTaskToList(usrInput.value);
       usrInput.value = "";
     }
   }
 }
 
 // This Function adds the New inputted task by the user
-function addNewTask(task) {
-  let uniqueId = timeStamp();
+function addNewTaskToList(task) {
+  //   let uniqueId = timeStamp();
   let data = {
     text: task,
     completed: false,
-    idNum: uniqueId,
+    idNum: createUniqueId(),
   };
   toDoList.push(data);
   addTaskToUI(data);
@@ -112,16 +117,9 @@ function addTaskToUI(task) {
 
   // Appending each element to document
   document.querySelector("body > section > ul").appendChild(newTask);
+  newTask.appendChild(addCheckBoxToUI());
   newTask.appendChild(taskText);
   newTask.appendChild(addDelBtnToUI());
-  //   newTask.appendChild(addEditBtnToUI());
-}
-
-// This function creates the UI for the current Tasks from the toDoList array
-function loadTasks() {
-  for (let j = 0; j < toDoList.length; j++) {
-    addTaskToUI(toDoList[j]);
-  }
 }
 
 function addDelBtnToUI() {
@@ -131,6 +129,48 @@ function addDelBtnToUI() {
   delBtn.appendChild(document.createTextNode("Delete"));
   return delBtn;
 }
+
+function addCheckBoxToUI() {
+  let checkBox = document.createElement("input");
+  checkBox.type = "checkbox";
+  checkBox.addEventListener("change", checkBoxHandler);
+  checkBox.classList.add("check-box");
+  if (){
+    checkBox.checked = true;
+  }
+  
+  return checkBox;
+}
+
+function checkBoxHandler(e) {
+  let taskId = getterID(e);
+  // Searching for the appropriate index in local storage
+  const foundIndex = indexFounder(taskId);
+  // If the checkbox is checked
+  if (this.checked) {
+    // Apply changes to UI and move it to completed section
+    // Changing Local storage with the new value
+    toDoList[foundIndex].completed = true;
+    reOrder(foundIndex);
+    commitToLocalStorage(toDoList);
+    reRender();
+  }
+  // If the task is not completed yet set completed to false
+  else {
+    toDoList[foundIndex].completed = false;
+    commitToLocalStorage(toDoList);
+    reRender();
+  }
+}
+
+function reOrder(index) {
+  console.log("I'm in reOrder");
+  let temp = toDoList[index];
+  toDoList.splice(index, 1);
+  toDoList.push(temp);
+}
+
+function completedTasksHandler(task, taskID) {}
 
 // This function hadles the deletion of an item from both UI and the List
 function removeHandler(e) {

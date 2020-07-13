@@ -133,12 +133,6 @@ body {
   display: none;
 }
 
-.edit-btn {
-  margin: 2px 3px;
-  display: none;
-}
-
-.new-task:hover .del-btn,
-.new-task:hover .edit-btn {
+.new-task:hover .del-btn {
   display: grid;
 }
