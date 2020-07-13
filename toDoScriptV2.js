@@ -9,6 +9,7 @@ function startApp() {
     loadTasks(); // The UI Task Loader
   }
   addTaskBtnHandler();
+  searchBarHandler();
 }
 
 // Load data from Local Storage
@@ -69,7 +70,7 @@ function addNewTaskToList(task) {
 startApp();
 
 ////////////////////////////////
-/////////////////
+///// Adding to UI Section ////
 ////////////////////////////////
 // This function creates a unique number which will be used as unique ID Number
 function createUniqueId() {
@@ -162,7 +163,7 @@ function clearAllBtnUI() {
 }
 
 ////////////////////////////////
-/////////////////
+////////// Handlers ///////
 ////////////////////////////////
 
 function checkBoxHandler(e) {
@@ -211,6 +212,7 @@ function removeHandler(e) {
   reRender();
 }
 
+// This function hadles the behaviour when it is dbl Clicked on the Task Text
 function editHandler(taskId) {
   const root = document.querySelector(`[data-task-id="${taskId}"]`);
   const label = root.getElementsByClassName("lbl")[0];
@@ -250,6 +252,27 @@ function clearAllHandler() {
   reRender();
 }
 
+// This function handles the functionality of Search Bar
+function searchBarHandler() {
+  let srchBar = document.querySelector(".search-bar");
+  srchBar.addEventListener("keyup", function () {
+    let inputText = srchBar.value.toLowerCase();
+    // Filtering the list based on user's input in Search bar
+    toDoList.filter(function (task) {
+      let taskText = task.text;
+      let taskId = task.idNum;
+      let element = document.querySelector(
+        "[data-task-id=" + CSS.escape(taskId) + "]"
+      );
+      // if the user's input was found in the list, show that, and hide others
+      if (taskText.toLowerCase().indexOf(inputText) != -1) {
+        element.style.display = "grid";
+      } else {
+        element.style.display = "none";
+      }
+    });
+  });
+}
 // This function returns the ID of the Targeted DOM element
 function getterID(e) {
   return e.target.parentElement.getAttribute("data-task-id");

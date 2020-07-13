@@ -129,7 +129,7 @@ body {
 .del-btn {
   margin: 2px 4px;
   position: absolute;
-  margin-left: -200px;
+  margin-left: 350px;
   display: none;
 }
 
