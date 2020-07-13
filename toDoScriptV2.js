@@ -104,6 +104,7 @@ function addTaskToUI(task) {
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
   newTask.classList.add("new-task");
+  newTask.addEventListener("dblclick", editHandler(taskText));
 
   taskText.appendChild(document.createTextNode(task.text));
 
@@ -111,6 +112,7 @@ function addTaskToUI(task) {
   document.querySelector("body > section > ul").appendChild(newTask);
   newTask.appendChild(taskText);
   newTask.appendChild(addDelBtnToUI());
+  //   newTask.appendChild(addEditBtnToUI());
 }
 
 // This function creates the UI for the current Tasks from the toDoList array
@@ -128,6 +130,14 @@ function addDelBtnToUI() {
   return delBtn;
 }
 
+// function addEditBtnToUI() {
+//   let editBtn = document.createElement("button");
+//   editBtn.addEventListener("dblclick", editHandler);
+//   editBtn.classList.add("edit-btn");
+//   editBtn.appendChild(document.createTextNode("Edit"));
+//   return editBtn;
+// }
+
 // This function hadles the deletion of an item from both UI and the List
 function removeHandler(e) {
   const removeId = getterID(e);
@@ -136,6 +146,15 @@ function removeHandler(e) {
   toDoList.splice(foundIndex, 1);
   commitToLocalStorage(toDoList);
   reRender();
+}
+
+function editHandler(text) {
+  console.log("dbl Clicked");
+  if (text.onfocus) {
+    console.log("on focus");
+  } else if (text.onblur) {
+    console.log("on Blur");
+  }
 }
 
 // This function returns the ID of the Targeted DOM element

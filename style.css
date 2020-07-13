@@ -131,6 +131,12 @@ body {
   display: none;
 }
 
-.new-task:hover .del-btn {
+.edit-btn {
+  margin: 2px 3px;
+  display: none;
+}
+
+.new-task:hover .del-btn,
+.new-task:hover .edit-btn {
   display: grid;
 }
