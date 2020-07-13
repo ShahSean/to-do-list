@@ -38,11 +38,7 @@ function reRender() {
 // This function creates the UI for the current Tasks from the toDoList array
 function loadTasks() {
   for (let j = 0; j < toDoList.length; j++) {
-      addTaskToUI(toDoList[j]);
-      // Checking if the Task has been marked as completed
-      if(toDoList[j].completed === true){
-
-      }
+    addTaskToUI(toDoList[j]);
   }
 }
 
@@ -117,7 +113,7 @@ function addTaskToUI(task) {
 
   // Appending each element to document
   document.querySelector("body > section > ul").appendChild(newTask);
-  newTask.appendChild(addCheckBoxToUI());
+  newTask.appendChild(addCheckBoxToUI(task));
   newTask.appendChild(taskText);
   newTask.appendChild(addDelBtnToUI());
 }
@@ -130,15 +126,15 @@ function addDelBtnToUI() {
   return delBtn;
 }
 
-function addCheckBoxToUI() {
+function addCheckBoxToUI(task) {
   let checkBox = document.createElement("input");
   checkBox.type = "checkbox";
   checkBox.addEventListener("change", checkBoxHandler);
   checkBox.classList.add("check-box");
-  if (){
+  if (task.completed === true) {
     checkBox.checked = true;
   }
-  
+
   return checkBox;
 }
 
@@ -151,7 +147,7 @@ function checkBoxHandler(e) {
     // Apply changes to UI and move it to completed section
     // Changing Local storage with the new value
     toDoList[foundIndex].completed = true;
-    reOrder(foundIndex);
+    moveTaskToEndOfList(foundIndex);
     commitToLocalStorage(toDoList);
     reRender();
   }
@@ -163,14 +159,13 @@ function checkBoxHandler(e) {
   }
 }
 
-function reOrder(index) {
-  console.log("I'm in reOrder");
+function moveTaskToEndOfList(index) {
   let temp = toDoList[index];
   toDoList.splice(index, 1);
   toDoList.push(temp);
 }
 
-function completedTasksHandler(task, taskID) {}
+function moveTaskToStartOfList(index) {}
 
 // This function hadles the deletion of an item from both UI and the List
 function removeHandler(e) {
