@@ -126,3 +126,11 @@ body {
   background-color: rgba(250, 235, 215, 0.587);
   transition: 0.2s;
 }
+.del-btn {
+  margin: 2px 4px;
+  display: none;
+}
+
+.new-task:hover .del-btn {
+  display: grid;
+}

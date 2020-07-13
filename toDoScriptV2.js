@@ -128,6 +128,7 @@ function addDelBtnToUI() {
   return delBtn;
 }
 
+// This function hadles the deletion of an item from both UI and the List
 function removeHandler(e) {
   const removeId = getterID(e);
   const foundIndex = indexFounder(removeId);
