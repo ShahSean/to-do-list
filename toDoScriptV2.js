@@ -104,7 +104,9 @@ function addTaskToUI(task) {
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
   newTask.classList.add("new-task");
-  newTask.addEventListener("dblclick", editHandler(taskText));
+  newTask.addEventListener("dblclick", function (e) {
+    editHandler(e.target.parentNode.dataset.taskId);
+  });
 
   taskText.appendChild(document.createTextNode(task.text));
 
@@ -130,14 +132,6 @@ function addDelBtnToUI() {
   return delBtn;
 }
 
-// function addEditBtnToUI() {
-//   let editBtn = document.createElement("button");
-//   editBtn.addEventListener("dblclick", editHandler);
-//   editBtn.classList.add("edit-btn");
-//   editBtn.appendChild(document.createTextNode("Edit"));
-//   return editBtn;
-// }
-
 // This function hadles the deletion of an item from both UI and the List
 function removeHandler(e) {
   const removeId = getterID(e);
@@ -148,13 +142,35 @@ function removeHandler(e) {
   reRender();
 }
 
-function editHandler(text) {
-  console.log("dbl Clicked");
-  if (text.onfocus) {
-    console.log("on focus");
-  } else if (text.onblur) {
-    console.log("on Blur");
+function editHandler(taskId) {
+  const root = document.querySelector(`[data-task-id="${taskId}"]`);
+  const label = root.getElementsByClassName("lbl")[0];
+  label.remove();
+  const input = document.createElement("input");
+  input.value = label.innerHTML;
+  root.appendChild(input);
+  input.focus();
+  let changedBack = false;
+
+  function changeBack() {
+    if (changedBack) return;
+    changedBack = true;
+
+    input.remove();
+    root.appendChild(label);
+    label.innerHTML = input.value;
+
+    const index = indexFounder(taskId);
+    toDoList[index].text = input.value;
+    commitToLocalStorage(toDoList);
   }
+
+  input.addEventListener("blur", changeBack);
+  input.addEventListener("keypress", function (e) {
+    if (e.which == 13) {
+      changeBack();
+    }
+  });
 }
 
 // This function returns the ID of the Targeted DOM element
