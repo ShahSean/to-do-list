@@ -37,9 +37,28 @@ function reRender() {
 
 // This function creates the UI for the current Tasks from the toDoList array
 function loadTasks() {
+  let clrAllBtnMade = false;
   for (let j = 0; j < toDoList.length; j++) {
     addTaskToUI(toDoList[j]);
+    if (j > 1 && clrAllBtnMade === false) {
+      let mainCtn = document.querySelector(".main-container");
+      mainCtn.appendChild(clearAllBtnUI());
+      clrAllBtnMade = true;
+    }
   }
+}
+
+// This Function adds the New inputted task by the user
+function addNewTaskToList(task) {
+  //   let uniqueId = timeStamp();
+  let data = {
+    text: task,
+    completed: false,
+    idNum: createUniqueId(),
+  };
+  toDoList.push(data);
+  addTaskToUI(data);
+  commitToLocalStorage(toDoList);
 }
 
 startApp();
@@ -82,19 +101,6 @@ function addTaskBtnHandler() {
   }
 }
 
-// This Function adds the New inputted task by the user
-function addNewTaskToList(task) {
-  //   let uniqueId = timeStamp();
-  let data = {
-    text: task,
-    completed: false,
-    idNum: createUniqueId(),
-  };
-  toDoList.push(data);
-  addTaskToUI(data);
-  commitToLocalStorage(toDoList);
-}
-
 // This function handles the UI of adding a new Task
 function addTaskToUI(task) {
   let newTask = document.createElement("li");
@@ -112,13 +118,13 @@ function addTaskToUI(task) {
   taskText.appendChild(document.createTextNode(task.text));
 
   // Appending each element to document
-  document.querySelector("body > section > ul").appendChild(newTask);
-  newTask.appendChild(addCheckBoxToUI(task));
+  document.querySelector(".task-containers").appendChild(newTask);
+  newTask.appendChild(CheckBoxUI(task));
   newTask.appendChild(taskText);
-  newTask.appendChild(addDelBtnToUI());
+  newTask.appendChild(delBtnUI());
 }
 
-function addDelBtnToUI() {
+function delBtnUI() {
   let delBtn = document.createElement("button");
   delBtn.addEventListener("click", removeHandler);
   delBtn.classList.add("del-btn");
@@ -126,7 +132,7 @@ function addDelBtnToUI() {
   return delBtn;
 }
 
-function addCheckBoxToUI(task) {
+function CheckBoxUI(task) {
   let checkBox = document.createElement("input");
   checkBox.type = "checkbox";
   checkBox.addEventListener("change", checkBoxHandler);
@@ -138,13 +144,29 @@ function addCheckBoxToUI(task) {
   return checkBox;
 }
 
+function clearAllBtnUI() {
+  let $div = document.createElement("div");
+  let $clrBtn = document.createElement("button");
+
+  $clrBtn.appendChild(document.createTextNode("Clear All"));
+  $div.classList.add("clr-btn");
+
+  $clrBtn.addEventListener("click", clearAllHandler);
+  $div.appendChild($clrBtn);
+  return $div;
+}
+
+////////////////////////////////
+/////////////////
+////////////////////////////////
+
 function checkBoxHandler(e) {
   let taskId = getterID(e);
   // Searching for the appropriate index in local storage
   const foundIndex = indexFounder(taskId);
   // If the checkbox is checked
   if (this.checked) {
-    // Apply changes to UI and move it to completed section
+    // Apply changes to UI and move it to end of the section
     // Changing Local storage with the new value
     toDoList[foundIndex].completed = true;
     moveTaskToEndOfList(foundIndex);
@@ -160,12 +182,14 @@ function checkBoxHandler(e) {
   }
 }
 
+// This function moves the given task to the end of the list
 function moveTaskToEndOfList(index) {
   let temp = toDoList[index];
   toDoList.splice(index, 1);
   toDoList.push(temp);
 }
 
+// This function moves the given task to the beginning of the list
 function moveTaskToStartOfList(index) {
   let temp = toDoList[index];
   toDoList.splice(index, 1);
@@ -211,6 +235,14 @@ function editHandler(taskId) {
       changeBack();
     }
   });
+}
+
+// This functions handles the behaviour of the Clear All Button
+function clearAllHandler() {
+  trash = toDoList.filter((task) => task.isDone == true);
+  toDoList = toDoList.filter((task) => task.isDone == false);
+  commitToLocalStorage(toDoList);
+  reRender();
 }
 
 // This function returns the ID of the Targeted DOM element
