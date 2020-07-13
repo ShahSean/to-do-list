@@ -301,20 +301,21 @@ let lastDraggedAfter = null;
 function dragOnContainer() {
   // Putting both New Tasks and Completed tasks into one variable
   let container = document.querySelectorAll(".tasks-container");
+  container.forEach((tasksContainer) => {
+    tasksContainer.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const elementAfter = getDragNextElemenet(tasksContainer, e.clientY);
+      // The item that we are currently dragging
+      const draggable = document.querySelector(".dragging");
+      if (elementAfter == null) {
+        tasksContainer.appendChild(draggable);
+      } else {
+        tasksContainer.insertBefore(draggable, elementAfter);
+      }
 
-  container.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    const elementAfter = getDragNextElemenet(container, e.clientY);
-    // The item that we are currently dragging
-    const draggable = document.querySelector(".dragging");
-    if (elementAfter == null) {
-      container.appendChild(draggable);
-    } else {
-      container.insertBefore(draggable, elementAfter);
-    }
-
-    lastDragged = draggable;
-    lastDraggedAfter = elementAfter;
+      lastDragged = draggable;
+      lastDraggedAfter = elementAfter;
+    });
   });
 }
 
