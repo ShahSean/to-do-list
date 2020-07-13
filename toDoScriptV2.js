@@ -117,14 +117,19 @@ function addTaskToUI(task) {
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
   newTask.classList.add("new-task");
+  newTask.setAttribute("draggable", true);
   newTask.addEventListener("dblclick", function (e) {
     editHandler(e.target.parentNode.dataset.taskId);
   });
 
+  // Draggable Listeners
+  newTask.addEventListener("dragstart", dragStart);
+  newTask.addEventListener("dragend", dragEnd);
+
   taskText.appendChild(document.createTextNode(task.text));
 
   // Appending each element to document
-  document.querySelector(".task-containers").appendChild(newTask);
+  document.querySelector(".tasks-container").appendChild(newTask);
   newTask.appendChild(CheckBoxUI(task));
   newTask.appendChild(taskText);
   newTask.appendChild(delBtnUI());
@@ -282,4 +287,95 @@ function indexFounder(id) {
   return toDoList.findIndex((el) => {
     return el.idNum === id;
   });
+}
+
+///////////////////////////////////
+// Drag and Drop
+///////////////////////////////////
+
+let lastDragged = null;
+let lastDraggedAfter = null;
+
+// This function identifies in which container the task is being dragged
+// into, and acts accordingly.
+function dragOnContainer() {
+  // Putting both New Tasks and Completed tasks into one variable
+  let container = document.querySelectorAll(".tasks-container");
+
+  container.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const elementAfter = getDragNextElemenet(container, e.clientY);
+    // The item that we are currently dragging
+    const draggable = document.querySelector(".dragging");
+    if (elementAfter == null) {
+      container.appendChild(draggable);
+    } else {
+      container.insertBefore(draggable, elementAfter);
+    }
+
+    lastDragged = draggable;
+    lastDraggedAfter = elementAfter;
+  });
+}
+
+// This function would return the element after
+// our current element that's been dragged
+// If it's at the end of the container, it would return nothing, so
+// we know that we need to append it to the end.
+function getDragNextElemenet(container, y) {
+  const draggableElements = [
+    ...container.querySelectorAll(".draggable:not(.dragging)"),
+  ];
+  return draggableElements.reduce(
+    (closest, tsk) => {
+      const box = tsk.getBoundingClientRect();
+      // The space between the center of the box and our mouse cursor
+      const offset = y - box.top - box.height / 2;
+      // When we are above a Box, we get negtive numbers !
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: tsk };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
+
+// This function reorders the Local Storage based on
+// the user's new sorting done by drag & Drop
+function reorderLclStorage(draggable, elementAfter) {
+  let taskId = draggable.getAttribute("data-task-id");
+
+  let nextTaskId =
+    typeof elementAfter === "undefined"
+      ? toDoList[toDoList.length - 1].idNum
+      : elementAfter.getAttribute("data-task-id");
+
+  // Searching for the appropriate index in local storage
+  const fromIndex = toDoList.findIndex((el) => {
+    return el.idNum === taskId;
+  });
+
+  const toIndex = toDoList.findIndex((el) => {
+    return el.idNum === nextTaskId;
+  });
+
+  // One-liner to move array element from one index to another
+  // https://stackoverflow.com/a/7180095/309247
+  toDoList.splice(toIndex, 0, toDoList.splice(fromIndex, 1)[0]);
+
+  commitToLocalStorage(toDoList);
+}
+
+// This function will be called when a drag is started
+function dragStart(e) {
+  e.target.classList.add("dragging");
+  dragOnContainer();
+}
+
+// This function will be called when a drag is ended
+function dragEnd(e) {
+  e.target.classList.remove("dragging");
+  reorderLclStorage(lastDragged, lastDraggedAfter);
 }
