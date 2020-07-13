@@ -28,8 +28,13 @@ function commitToLocalStorage(list) {
 function reRender() {
   // Tasks Parent element
   let newTaskParent = document.querySelector(".tasks");
+  let clrAllBtn = document.querySelector(".clr-btn");
   if (newTaskParent) {
     newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
+  }
+  if (clrAllBtn) {
+    console.log("here");
+    clrAllBtn.remove();
   }
   // Reload all tasks
   loadTasks();
@@ -145,15 +150,15 @@ function CheckBoxUI(task) {
 }
 
 function clearAllBtnUI() {
-  let $div = document.createElement("div");
-  let $clrBtn = document.createElement("button");
+  let div = document.createElement("div");
+  let clrBtn = document.createElement("button");
 
-  $clrBtn.appendChild(document.createTextNode("Clear All"));
-  $div.classList.add("clr-btn");
+  clrBtn.appendChild(document.createTextNode("Clear All"));
+  div.classList.add("clr-btn");
 
-  $clrBtn.addEventListener("click", clearAllHandler);
-  $div.appendChild($clrBtn);
-  return $div;
+  clrBtn.addEventListener("click", clearAllHandler);
+  div.appendChild(clrBtn);
+  return div;
 }
 
 ////////////////////////////////
