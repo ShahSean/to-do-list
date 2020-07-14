@@ -136,10 +136,12 @@ function addTaskToUI(task) {
 }
 
 function delBtnUI() {
-  let delBtn = document.createElement("button");
+  let delBtn = document.createElement("i");
   delBtn.addEventListener("click", removeHandler);
+  delBtn.classList.add("fa");
+  delBtn.classList.add("fa-trash-o");
   delBtn.classList.add("del-btn");
-  delBtn.appendChild(document.createTextNode("Delete"));
+  delBtn.setAttribute("area-hidden", "true");
   return delBtn;
 }
 
@@ -212,7 +214,8 @@ function removeHandler(e) {
   const removeId = getterID(e);
   const foundIndex = indexFounder(removeId);
 
-  toDoList.splice(foundIndex, 1);
+  trash = trash.push("toDoList.splice(foundIndex, 1)");
+  console.log(trash);
   commitToLocalStorage(toDoList);
   reRender();
 }
@@ -382,3 +385,17 @@ function dragEnd(e) {
   e.target.classList.remove("dragging");
   reorderLclStorage(lastDragged, lastDraggedAfter);
 }
+
+///////////////////////////////////
+//////////   Undo ///////////////
+///////////////////////////////////
+function undo(e) {
+  var evtobj = window.event ? event : e;
+  if (
+    (evtobj.keyCode == 90 && evtobj.ctrlKey) ||
+    (evtobj.keyCode == 90 && evtobj.mataLeft)
+  )
+    alert("Ctrl+z");
+}
+
+document.onkeydown = undo;
