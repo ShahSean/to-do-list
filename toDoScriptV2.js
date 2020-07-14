@@ -223,6 +223,7 @@ function editHandler(taskId) {
   const label = root.getElementsByClassName("lbl")[0];
   label.remove();
   const input = document.createElement("input");
+  input.classList.add("edit-input");
   input.value = label.innerHTML;
   root.appendChild(input);
   input.focus();
@@ -231,7 +232,7 @@ function editHandler(taskId) {
   function changeBack() {
     if (changedBack) return;
     changedBack = true;
-
+    input.classList.remove("edit-input");
     input.remove();
     root.appendChild(label);
     label.innerHTML = input.value;
