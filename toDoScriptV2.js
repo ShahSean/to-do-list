@@ -34,7 +34,6 @@ function reRender() {
     newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
   }
   if (clrAllBtn) {
-    console.log("here");
     clrAllBtn.remove();
   }
   // Reload all tasks
@@ -117,6 +116,7 @@ function addTaskToUI(task) {
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
   newTask.classList.add("new-task");
+  newTask.classList.add("draggable");
   newTask.setAttribute("draggable", true);
   newTask.addEventListener("dblclick", function (e) {
     editHandler(e.target.parentNode.dataset.taskId);
@@ -290,7 +290,7 @@ function indexFounder(id) {
 }
 
 ///////////////////////////////////
-// Drag and Drop
+////////// Drag & Drop ///////
 ///////////////////////////////////
 
 let lastDragged = null;
@@ -305,6 +305,7 @@ function dragOnContainer() {
     tasksContainer.addEventListener("dragover", (e) => {
       e.preventDefault();
       const elementAfter = getDragNextElemenet(tasksContainer, e.clientY);
+
       // The item that we are currently dragging
       const draggable = document.querySelector(".dragging");
       if (elementAfter == null) {
