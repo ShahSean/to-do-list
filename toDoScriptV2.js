@@ -131,6 +131,9 @@ function addTaskToUI(task) {
   // Appending each element to document
   document.querySelector(".tasks-container").appendChild(newTask);
   newTask.appendChild(CheckBoxUI(task));
+  if (task.completed === true) {
+    newTask.classList.add("completed");
+  }
   newTask.appendChild(taskText);
   newTask.appendChild(delBtnUI());
 }
@@ -214,7 +217,7 @@ function removeHandler(e) {
   const removeId = getterID(e);
   const foundIndex = indexFounder(removeId);
 
-  trash = trash.push("toDoList.splice(foundIndex, 1)");
+  trash = toDoList.splice(foundIndex, 1);
   console.log(trash);
   commitToLocalStorage(toDoList);
   reRender();
@@ -391,11 +394,15 @@ function dragEnd(e) {
 ///////////////////////////////////
 function undo(e) {
   var evtobj = window.event ? event : e;
+  let test = [];
   if (
     (evtobj.keyCode == 90 && evtobj.ctrlKey) ||
     (evtobj.keyCode == 90 && evtobj.mataLeft)
   )
-    alert("Ctrl+z");
+    test = trash.pop();
+  console.log(JSON.stringify(test));
+  // toDoList = toDoList.push(trash.pop());
+  // reRender();
 }
 
 document.onkeydown = undo;

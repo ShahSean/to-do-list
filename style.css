@@ -167,6 +167,15 @@ body {
   outline: none;
 }
 
+/* Completed Tasks */
+.completed {
+  text-decoration: line-through;
+  opacity: 0.2;
+}
+.completed:hover {
+  opacity: 0.4;
+}
+
 .clr-btn {
   font-family: "Indie Flower", cursive;
 }
